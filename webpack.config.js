@@ -29,7 +29,12 @@ module.exports = {
         test: /\.js$/,
         include: path.resolve('node_modules/angular2'),
         loader: 'strip-sourcemap'
-      }
+      },
+        {
+            test: /\.scss$/,
+            exclude: /node_modules/,
+            loader: 'style-loader!css-loader!sass-loader'
+        }
     ],
     noParse: [
       /es6-shim/,

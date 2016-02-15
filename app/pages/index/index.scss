@@ -1,0 +1,26 @@
+$item-index-size: 2em;
+$item-index-bg: #5C6468;
+
+$item-list-even-bg: #D8D9D8;
+
+.item-index {
+    color: white;
+    display: inline-block;
+    width: $item-index-size;
+    height: $item-index-size;
+    background: {
+        color: $item-index-bg;
+    }
+    text-align: center;
+    line-height: $item-index-size;
+    border-radius: 50%;
+    font: {
+        weight: 700;
+    }
+}
+
+.item-list ion-item:nth-child(even) {
+    background: {
+        color: $item-list-even-bg;
+    }
+}

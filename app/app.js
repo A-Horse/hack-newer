@@ -1,5 +1,5 @@
 import {App, Platform} from 'ionic/ionic';
-import {TabsPage} from './pages/tabs/tabs';
+import {IndexPage} from './pages/index/index';
 
 
 @App({
@@ -8,7 +8,7 @@ import {TabsPage} from './pages/tabs/tabs';
 })
 export class MyApp {
   constructor(platform: Platform) {
-    this.rootPage = TabsPage;
+    this.rootPage = IndexPage;
 
     platform.ready().then(() => {
       // The platform is now ready. Note: if this callback fails to fire, follow

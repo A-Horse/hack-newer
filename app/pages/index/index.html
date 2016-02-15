@@ -1,0 +1,17 @@
+<ion-navbar hack *navbar>
+  <ion-title>Hack News</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <!-- <button (click)="goToOtherPage()"> -->
+  <!--   Go to OtherPage -->
+  <!-- </button> -->
+
+  <ion-list class="item-list">
+    <ion-item *ngFor="#item of latestItems; #i = index">
+      <span class="item-index">{{ i }}</span>
+      
+      {{ item.title }}
+    </ion-item>
+  </ion-list>
+</ion-content>
