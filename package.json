@@ -21,7 +21,14 @@
   },
   "name": "hack-newer",
   "description": "hack-newer: An Ionic project",
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    "cordova-plugin-device",
+    "cordova-plugin-console",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-statusbar",
+    "ionic-plugin-keyboard"
+  ],
   "cordovaPlatforms": [
     "android"
   ]

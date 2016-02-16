@@ -1,6 +1,7 @@
 $item-index-size: 2em;
 $item-index-bg: #5C6468;
 
+$item-height: 4em;
 $item-list-even-bg: #D8D9D8;
 
 .item-index {
@@ -19,8 +20,12 @@ $item-list-even-bg: #D8D9D8;
     }
 }
 
-.item-list ion-item:nth-child(even) {
-    background: {
-        color: $item-list-even-bg;
+
+.item-card {
+    
+    &:nth-child(even), &:nth-child(even) > * {
+        background: {
+            color: $item-list-even-bg;
+        }
     }
 }

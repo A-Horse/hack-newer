@@ -3,15 +3,23 @@
 </ion-navbar>
 
 <ion-content>
-  <!-- <button (click)="goToOtherPage()"> -->
-  <!--   Go to OtherPage -->
-  <!-- </button> -->
 
-  <ion-list class="item-list">
-    <ion-item *ngFor="#item of latestItems; #i = index">
-      <span class="item-index">{{ i }}</span>
+
+  
+  <ion-card *ngFor="#item of latestItems; #i = index" class="item-card" (click)="openUrl(item.url)">
+
+
+    <ion-card-content>
+      <p>{{ item.title }}</p>
+    </ion-card-content>
+
+    <ion-item>
       
-      {{ item.title }}
+      <p>{{ item.by }}</p>
+
+      <p>{{ calcTimeDistance(item.time)  }}</p>
     </ion-item>
-  </ion-list>
+  
+  </ion-card>
+
 </ion-content>
