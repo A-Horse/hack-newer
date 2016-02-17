@@ -4,6 +4,8 @@ import  * as _  from 'lodash';
 
 import {timeDifference} from '../../util'
 
+import {ButtonSequence} from '../../components/buttonSequence/buttonSequence';
+
 import 'rxjs/add/operator/map';
 
 import './index.scss';
@@ -12,7 +14,8 @@ const LATEST_ITEM_N = 10;
 
 
 @Page({
-    templateUrl: 'build/pages/index/index.html'
+    templateUrl: 'build/pages/index/index.html',
+    directives: [ButtonSequence]
 })
 export class IndexPage {
     constructor(nav: NavController, http: Http) {
@@ -27,6 +30,14 @@ export class IndexPage {
                 data => this.handleItems(data),
                 err => this.logError(err)
             );
+
+        this.vButtons = [{
+            icon: 'md-attach',
+            txt: 'Attach'
+            }, {
+                icon: 'md-star',
+                txt: 'Star'
+            }]
     }
 
     openUrl(url) {

@@ -4,10 +4,10 @@
 
 <ion-content>
 
-
+  <button-sequence [vButtons]="vButtons"></button-sequence>
+  
   
   <ion-card *ngFor="#item of latestItems; #i = index" class="item-card" (click)="openUrl(item.url)">
-
 
     <ion-card-content>
       <p>{{ item.title }}</p>

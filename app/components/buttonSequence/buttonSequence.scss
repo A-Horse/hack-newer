@@ -1,0 +1,46 @@
+$button-size: 60px;
+$button-bg-default: #1D1818;
+$margin-to-corner: 30px;
+$icon-size: 40px;
+
+.button-sequence {
+    position: absolute;
+    z-index: 999;
+    opacity: 0.9;
+    bottom: $margin-to-corner;
+    right: $margin-to-corner;
+    
+    .sequence-button {
+        position: relative;
+        height: $button-size;
+        width: $button-size;
+        line-height: $button-size + $icon-size / 2;
+        background: {
+            color: $button-bg-default;
+        }
+        border-radius: 50%;
+        text-align: center;
+        z-index: 999;
+        &.v {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+    }
+    
+    .buttons-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 888;
+        height: $button-size;
+        width: $button-size;
+    }
+    
+    ion-icon {
+        color: white;
+        font-size: $icon-size;
+    }
+    
+}
+
