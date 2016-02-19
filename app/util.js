@@ -1,5 +1,6 @@
 
 
+
 export function timeDifference(current, previous) {
 
     var msPerMinute = 60 * 1000;

@@ -1,21 +1,33 @@
-import {Component, Input, HostListener, ElementRef} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {Icon, Animation} from 'ionic/ionic';
 
 import './buttonSequence.scss'
 
+const buttonSize = 60;
+const buttonGap = 30;
+const buttonHideOpacity = 0.5;
+
 @Component({
     selector: 'button-sequence',
     template: `
-    <div #ele>
-        <div class="sequence-button" (click)="click(ele)">
+    <div>
+        <div class="sequence-button" (click)="toggle()">
             <ion-icon name="md-add"></ion-icon>
         </div>
-        <div *ngIf="vButtons && showButtons" class="buttons-container">
-            <div #ele *ngFor="#button of vButtons" class="sequence-button v">
-                <ion-icon [name]="button.icon"></ion-icon>
+        <div  class="buttons-container">
+        <div *ngFor="#button of vButtons" [ngStyle]="{bottom: button.bottom, opacity: button.opacity}"
+               (click)="button.fn($event)" class="sequence-button v">
+               <ion-icon [name]="button.icon"></ion-icon>
+        <span class="button-txt" *ngIf="showButtons">{{ button.txt }}</span>
+            </div>
+      
+        <div *ngFor="#button of hButtons" [ngStyle]="{right: button.right, opacity: button.opacity}"
+               (click)="button.fn($event)" class="sequence-button h">
+               <ion-icon [name]="button.icon"></ion-icon>
+        <span class="button-txt" *ngIf="showButtons">{{ button.txt }}</span>
             </div>
         </div>
-        </div>`,
+    </div>`,
     host: {
         'class': 'button-sequence'
     },
@@ -28,32 +40,57 @@ export class ButtonSequence {
     @Input() hButtons: Array<{
         icon: string,
         txt: string,
+        fn: any
     }> = [];
     // 垂直 buttons
     @Input() vButtons: Array<{
         icon: string,
         txt: string,
+        fn: any
     }> = [];
+
+    @Output() clicked = new EventEmitter();
     
-    constructor(private _elementRef: ElementRef) {
-        
+    constructor() {
+        this.vButtons.map((button) => {
+            button.opacity = buttonHideOpacity;
+        });
+        this.hButtons.map((button) => {
+            button.opacity = buttonHideOpacity;
+        });
     }
 
-    public click(elem) {
+    public toggle(elem) {
         //event.preventDefault();
         //event.stopPropagation();
         
-        
         this.showButtons = !this.showButtons;
-        console.log('I\'m click!');
-
 
         if( this.showButtons ){
-            console.log(this._elementRef.nativeElement);
-            //console.log(elem.nativeElement.querySelector('div.v'));
-            console.log(elem);
-        } else {
+            let b = 0;
+            this.vButtons.map((button) => {
+                b = buttonGap + buttonSize + b;
+                button.bottom = b + 'px';
+                button.opacity = 1;
+            });
 
+            b = 0;
+            this.hButtons.map((button) => {
+                b = buttonGap + buttonSize + b;
+                button.right = b + 'px';
+                button.opacity = 1;
+            });
+            
+        } else {
+            this.vButtons.map((button) => {
+                button.bottom = '0px';
+                button.opacity = buttonHideOpacity;
+            });
+
+            this.hButtons.map((button) => {
+                button.right = '0px';
+                button.opacity = buttonHideOpacity;
+            });
         }
 
 

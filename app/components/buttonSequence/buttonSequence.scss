@@ -21,11 +21,40 @@ $icon-size: 40px;
         border-radius: 50%;
         text-align: center;
         z-index: 999;
-        &.v {
+        transition: bottom 300ms cubic-bezier(0.23, 1, 0.32, 1), right 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms cubic-bezier(0.23, 1, 0.32, 1);
+        
+        &.v, &.h {
             position: absolute;
             bottom: 0;
             right: 0;
+            
+            .button-txt {
+                color: white;
+                background: #333;
+                position: absolute;
+                line-height: initial;
+                padding: 2px 5px;
+                border-radius: 1px;
+            }
         }
+        
+        &.v {
+            .button-txt {
+                left: -60px;
+                top: 50%;
+                transform: translate(0, -50%);
+            }
+        }
+        
+        &.h {           
+            .button-txt {
+                top: 110%;
+                left: 50%;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        
     }
     
     .buttons-container {
