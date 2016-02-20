@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, ElementRef, EventEmitter, Hostlistener} from 'angular2/core';
 import {Icon, Animation} from 'ionic/ionic';
 
 import './buttonSequence.scss'
@@ -6,11 +6,11 @@ import './buttonSequence.scss'
 const buttonSize = 60;
 const buttonGap = 30;
 const buttonHideOpacity = 0.5;
+const marginToCorner = 30;
 
 @Component({
     selector: 'button-sequence',
     template: `
-    <div>
         <div class="sequence-button" (click)="toggle()">
             <ion-icon name="md-add"></ion-icon>
         </div>
@@ -26,7 +26,7 @@ const buttonHideOpacity = 0.5;
                <ion-icon [name]="button.icon"></ion-icon>
         <span class="button-txt" *ngIf="showButtons">{{ button.txt }}</span>
             </div>
-        </div>
+
     </div>`,
     host: {
         'class': 'button-sequence'
@@ -51,7 +51,8 @@ export class ButtonSequence {
 
     @Output() clicked = new EventEmitter();
     
-    constructor() {
+    constructor(private elementRef :ElementRef) {
+        console.log(this.elementRef);
         this.vButtons.map((button) => {
             button.opacity = buttonHideOpacity;
         });
@@ -60,21 +61,26 @@ export class ButtonSequence {
         });
     }
 
+    // @Hostlistener('click', ['$event'])
+    // public onClick($event) {
+    //     console.log('s');
+    // }
+    
     public toggle(elem) {
-        //event.preventDefault();
-        //event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
         
         this.showButtons = !this.showButtons;
 
         if( this.showButtons ){
-            let b = 0;
+            let b = marginToCorner;
             this.vButtons.map((button) => {
                 b = buttonGap + buttonSize + b;
                 button.bottom = b + 'px';
                 button.opacity = 1;
             });
 
-            b = 0;
+            b = marginToCorner;
             this.hButtons.map((button) => {
                 b = buttonGap + buttonSize + b;
                 button.right = b + 'px';
@@ -83,12 +89,12 @@ export class ButtonSequence {
             
         } else {
             this.vButtons.map((button) => {
-                button.bottom = '0px';
+                button.bottom = null;
                 button.opacity = buttonHideOpacity;
             });
 
             this.hButtons.map((button) => {
-                button.right = '0px';
+                button.right = null;
                 button.opacity = buttonHideOpacity;
             });
         }

@@ -74,16 +74,18 @@ export class IndexPage {
             fn:  (event) => {
                 if (this.hButtons[0].icon === 'moon') {
                     this.hButtons[0].icon = 'md-sunny';
+                    this.hButtons[0].txt = 'sun';
                 } else {
                     this.hButtons[0].icon = 'moon';
+                    this.hButtons[0].txt = 'moon';
                 }
             }
         }]
     }
 
-    //@Hostlistener('click', [])
     
     setCategory(cate) {
+        console.log(cate);
         this.category = cate;
         this.local.set('category', cate);
     }
@@ -96,7 +98,7 @@ export class IndexPage {
                 refresh();
             }
         } else {
-            this.local.set('fetchTime', t)
+            this.local.set('fetchTime', t);
         }
     }
 

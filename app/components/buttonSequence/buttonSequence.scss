@@ -7,11 +7,14 @@ $icon-size: 40px;
     position: absolute;
     z-index: 999;
     opacity: 0.9;
-    bottom: $margin-to-corner;
-    right: $margin-to-corner;
+    
+    height: 100%;
+    width: 100%;
     
     .sequence-button {
-        position: relative;
+        bottom: $margin-to-corner;
+        right: $margin-to-corner;
+        position: absolute;
         height: $button-size;
         width: $button-size;
         line-height: $button-size + $icon-size / 2;
@@ -24,9 +27,6 @@ $icon-size: 40px;
         transition: bottom 300ms cubic-bezier(0.23, 1, 0.32, 1), right 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms cubic-bezier(0.23, 1, 0.32, 1);
         
         &.v, &.h {
-            position: absolute;
-            bottom: 0;
-            right: 0;
             
             .button-txt {
                 color: white;

@@ -4,7 +4,7 @@
 
 <ion-content>
 
-  <button-sequence [vButtons]="vButtons" [hButtons]="hButtons"></button-sequence>
+  <button-sequence #bs [vButtons]="vButtons" [hButtons]="hButtons"></button-sequence>
   
   
   <ion-card *ngFor="#item of latestItems; #i = index" class="item-card" (click)="openUrl(item.url)">
