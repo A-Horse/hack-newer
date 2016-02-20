@@ -61,11 +61,13 @@ export class ButtonSequence {
     }
 
     public toggle(elem) {
-        //event.preventDefault();
-        //event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
         
         this.showButtons = !this.showButtons;
 
+        this.clicked.emit(this.showButtons);
+        
         if( this.showButtons ){
             let b = 0;
             this.vButtons.map((button) => {

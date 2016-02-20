@@ -5,6 +5,7 @@ import  * as _  from 'lodash';
 import {timeDifference} from '../../util'
 
 import {ButtonSequence} from '../../components/buttonSequence/buttonSequence';
+import {WaveDirective} from '../../directives/wave/wave';
 
 import 'rxjs/add/operator/map';
 
@@ -25,13 +26,15 @@ const apis = {
 
 @Page({
     templateUrl: 'build/pages/index/index.html',
-    directives: [ButtonSequence]
+    directives: [ButtonSequence, WaveDirective]
 })
 export class IndexPage {
     constructor(nav: NavController, http: Http) {
         this.nav = nav;
         this.http = http;
 
+        this.bsClicked = false;
+        
         this.local = new Storage(LocalStorage);
 
         this.category = this.local.get('category') || 'new';
@@ -81,9 +84,17 @@ export class IndexPage {
         }]
     }
 
-    //@Hostlistener('click', [])
+    contentClick($event, bs) {
+        /* $event.preventDefault();
+           $event.stopPropagation(); */
+        if (this.bsClicked) {
+            bs.toggle();
+        }
+    }
+    
     
     setCategory(cate) {
+        console.log(cate);
         this.category = cate;
         this.local.set('category', cate);
     }
@@ -106,7 +117,7 @@ export class IndexPage {
     }
     
     openUrl(url) {
-        window.open(url, '_blank', 'location=yes');
+        //window.open(url, '_blank', 'location=yes');
     }
 
     calcTimeDistance(time) {

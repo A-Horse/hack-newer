@@ -2,9 +2,9 @@
   <ion-title>Hack News</ion-title>
 </ion-navbar>
 
-<ion-content>
+<ion-content (click)="contentClick($event, bs)">
 
-  <button-sequence [vButtons]="vButtons" [hButtons]="hButtons"></button-sequence>
+  <button-sequence #bs [vButtons]="vButtons" [hButtons]="hButtons" (clicked)="bsClicked = !bsClicked"></button-sequence>
   
   
   <ion-card *ngFor="#item of latestItems; #i = index" class="item-card" (click)="openUrl(item.url)">
