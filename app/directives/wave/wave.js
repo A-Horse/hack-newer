@@ -5,7 +5,7 @@ import './wave.scss';
 @Directive({
     selector: '[wave]',
     host: {
-      'class': 'wave-ripple'
+        'class': 'wave-ripple'
     }
 })
 export class WaveDirective {
@@ -18,12 +18,12 @@ export class WaveDirective {
     public onClick($event) {
         $event.preventDefault();
         let elHeight = this.el.nativeElement.clientHeight,
-            elWidth = this.el.nativeElement.clientWidth;
+        elWidth = this.el.nativeElement.clientWidth;
 
         let ripple = document.createElement('div');
         ripple.classList.add('wave-ripple-effect');
-      ripple.style.top = ($event.pageX  - 25) + 'px';
-        ripple.style.left = $event.layerX - 25 + 'px';
+        ripple.style.top = ($event.pageY - this.el.nativeElement.offsetTop - 25) + 'px';
+        ripple.style.left = ($event.pageX - this.el.nativeElement.offsetLeft - 25) + 'px';
         
         this.el.nativeElement.appendChild(ripple);
 

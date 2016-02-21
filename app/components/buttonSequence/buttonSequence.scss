@@ -5,6 +5,7 @@ $icon-size: 40px;
 
 .button-sequence {
     position: fixed;
+    -webkit-backface-visibility:hidden; /*Most Important*/
     z-index: 999;
     opacity: 0.9;
     bottom: $margin-to-corner;
