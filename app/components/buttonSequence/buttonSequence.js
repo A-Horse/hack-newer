@@ -72,6 +72,8 @@ export class ButtonSequence {
         
         this.showButtons = !this.showButtons;
 
+        this.clicked.emit(this.showButtons);
+        
         if( this.showButtons ){
             let b = marginToCorner;
             this.vButtons.map((button) => {

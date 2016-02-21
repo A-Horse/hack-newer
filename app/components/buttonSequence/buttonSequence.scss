@@ -4,7 +4,8 @@ $margin-to-corner: 30px;
 $icon-size: 40px;
 
 .button-sequence {
-    position: absolute;
+    position: fixed;
+    -webkit-backface-visibility:hidden; /*Most Important*/
     z-index: 999;
     opacity: 0.9;
     
