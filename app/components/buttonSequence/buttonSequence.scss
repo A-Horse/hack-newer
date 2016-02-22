@@ -5,7 +5,7 @@ $icon-size: 40px;
 
 .button-sequence {
     position: fixed;
-    -webkit-backface-visibility:hidden; /*Most Important*/
+    -webkit-backface-visibility: hidden; /*Most Important*/
     z-index: 999;
     opacity: 0.9;
     bottom: $margin-to-corner;
@@ -15,7 +15,7 @@ $icon-size: 40px;
         position: relative;
         height: $button-size;
         width: $button-size;
-        line-height: $button-size + $icon-size / 2;
+        line-height: 80px;/* postcss  计算不了 $button-size + $icon-size / 2; */ 
         background: {
             color: $button-bg-default;
         }

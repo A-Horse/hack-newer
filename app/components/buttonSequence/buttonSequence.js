@@ -11,7 +11,7 @@ const buttonHideOpacity = 0.5;
     selector: 'button-sequence',
     template: `
     <div>
-        <div class="sequence-button" (click)="toggle()">
+        <div class="sequence-button" (click)="toggle($event)">
             <ion-icon name="md-add"></ion-icon>
         </div>
         <div  class="buttons-container">
@@ -60,7 +60,9 @@ export class ButtonSequence {
         });
     }
 
-    public toggle(elem) {
+    public toggle(event) {
+        console.log('toggle');
+        
         event.preventDefault();
         event.stopPropagation();
         

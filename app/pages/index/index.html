@@ -1,25 +1,34 @@
 <ion-navbar hack *navbar>
-  <ion-title>Hack News</ion-title>
+    <ion-title>Hack News</ion-title>
 </ion-navbar>
 
 <button-sequence #bs [vButtons]="vButtons" [hButtons]="hButtons" (clicked)="bsClicked = !bsClicked"></button-sequence>
 
 <ion-content (click)="contentClick($event, bs)">
-  
-  <ion-card wave *ngFor="#item of latestItems; #i = index" class="item-card" (click)="openUrl(item.url)">
+    
+    <ion-card wave *ngFor="#item of items; #i = index" class="item-card" (click)="cardClick(item, i)">
 
-    <ion-card-content>
-      <p>{{ item.title }}</p>
-    </ion-card-content>
+        <ion-card-content>
+            <p>{{ item.title }}</p>
+        </ion-card-content>
 
-    <ion-item>
-      
-      <p>{{ item.by }}</p>
+        <ion-item>            
+            <p>{{ item.by }}</p>
+            <p *ngIf="item.text">{{ item.text }}</p>
+            <p>{{ calcTimeDistance(item.time) }}</p>
+        </ion-item>
+        
+        <div *ngIf="item.opChoose" class="choose-container" [ngClass]="{move: item.chooseMove}">
+            <div class="choose-button star" (click)="openUrl($event, item.url)">
+                <ion-icon [name]="'md-star'"></ion-icon>
+            </div>
 
-      <p>{{ calcTimeDistance(item.time)  }}</p>
-    </ion-item>
-  
-  </ion-card>
+            <div class="choose-button open" (click)="starItem($event, item.id)">
+                <ion-icon [name]="'md-compass'"></ion-icon>
+            </div>
+        </div>
+        
+    </ion-card>
 
 </ion-content>
 
