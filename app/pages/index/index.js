@@ -1,15 +1,17 @@
-import {Page, NavController, Storage, LocalStorage, Hostlistener} from 'ionic/ionic';
+import {Page, Icon, NavController, Storage, LocalStorage, Hostlistener} from 'ionic/ionic';
 import {Http, HTTP_PROVIDERS} from 'angular2/http';
 import  * as _  from 'lodash';
 
 import {timeDifference} from '../../util'
 
 import {ButtonSequence} from '../../components/buttonSequence/buttonSequence';
-import {WaveDirective} from '../../directives/wave/wave';
+import {WaveDirective} from '../../Directives/wave/wave';
+//import {ChooseDirective} from '../../Directives/choose/choose'; 
 
 import 'rxjs/add/operator/map';
 
 import './index.scss';
+import './choose.scss';
 
 const LATEST_ITEM_N = 10;
 const fetchNewMins = 5;
@@ -26,20 +28,22 @@ const apis = {
 
 @Page({
     templateUrl: 'build/pages/index/index.html',
-    directives: [ButtonSequence, WaveDirective]
+    directives: [Icon, ButtonSequence, WaveDirective]
 })
 export class IndexPage {
     constructor(nav: NavController, http: Http) {
         this.nav = nav;
         this.http = http;
 
+        this.opItem = null;
+        
         this.bsClicked = false;
         
         this.local = new Storage(LocalStorage);
 
         this.category = this.local.get('category') || 'new';
         
-        this.latestItems = [];
+        this.items = [];
         
         this.http.get('https://hacker-news.firebaseio.com/v0/newstories.json')
             .map(res => JSON.parse(res.text()))
@@ -86,17 +90,15 @@ export class IndexPage {
         }]
     }
 
-<<<<<<< HEAD
-=======
     contentClick($event, bs) {
-        /* $event.preventDefault();
-           $event.stopPropagation(); */
+        console.log($event)
+        $event.preventDefault();
+        $event.stopPropagation();
+        console.log('-------')
         if (this.bsClicked) {
-            bs.toggle();
+            bs.toggle($event);
         }
     }
-    
->>>>>>> 9ba177f
     
     setCategory(cate) {
         console.log(cate);
@@ -121,8 +123,46 @@ export class IndexPage {
         
     }
     
-    openUrl(url) {
+    openUrl($event, url) {
+        console.log('url');
+        $event.preventDefault();
+        $event.stopPropagation();
         //window.open(url, '_blank', 'location=yes');
+    }
+
+    starItem($event, id) {
+        console.log('star');
+        $event.preventDefault();
+        $event.stopPropagation();
+    }
+
+    cardClick(item, i) {
+        let lastItem = this.opItem;
+        this.opItem = i;
+        if ((!!lastItem || lastItem === 0) && lastItem !== i) {
+            this.items[lastItem].chooseMove = false;
+
+            setTimeout(() => {
+                this.items[lastItem].opChoose = false;
+            }, 500);
+        }
+
+        
+        
+        if (item.opChoose) {
+            item.chooseMove = false;
+
+            setTimeout(() => {
+                item.opChoose = false;
+            }, 500);
+        } else {
+            item.opChoose = true;
+        
+            setTimeout(() => {
+                item.chooseMove = true;
+            });
+        }
+        
     }
 
     calcTimeDistance(time) {
@@ -138,7 +178,7 @@ export class IndexPage {
                 .subscribe(
                     itemData => {
                         console.log(itemData)
-                        this.latestItems.push(itemData);
+                        this.items.push(itemData);
                     },
                     err => this.logError(err)
                 );

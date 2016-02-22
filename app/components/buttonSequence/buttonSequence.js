@@ -11,7 +11,8 @@ const marginToCorner = 30;
 @Component({
     selector: 'button-sequence',
     template: `
-        <div class="sequence-button" (click)="toggle()">
+    <div>
+        <div class="sequence-button" (click)="toggle($event)">
             <ion-icon name="md-add"></ion-icon>
         </div>
         <div  class="buttons-container">
@@ -61,12 +62,10 @@ export class ButtonSequence {
         });
     }
 
-    // @Hostlistener('click', ['$event'])
-    // public onClick($event) {
-    //     console.log('s');
-    // }
-    
-    public toggle(elem) {
+
+    public toggle(event) {
+        console.log('toggle');
+        
         event.preventDefault();
         event.stopPropagation();
         

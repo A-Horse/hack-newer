@@ -1,0 +1,60 @@
+$button-size: 60px;
+$icon-size: 40px;
+
+.choose-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    
+    &.move {
+        
+        .choose-button {
+            opacity: 1;
+            
+            &:first-child {
+                transform: translate(-150%, -50%);
+            }
+            
+            &:last-child {
+                transform: translate(50%, -50%);
+            }
+            
+        }
+        
+    }
+}
+
+.choose-button {
+    width: $button-size;
+    height: $button-size;
+    border-radius: 50%;
+    text-align: center;
+    line-height: $button-size;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.5s, opacity 0.5s;
+    opacity: 0.3;
+    
+    ion-icon {
+        color: white;
+        font-size: $icon-size;
+        vertical-align: middle;
+    }
+    
+    &.star {
+        background: {
+            color: yellow;
+        }
+    }
+    
+    &.open {
+        background: {
+            color: gray;
+        }
+    }
+}
+
+
