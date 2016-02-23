@@ -6,7 +6,9 @@ import {timeDifference} from '../../util'
 
 import {ButtonSequence} from '../../components/buttonSequence/buttonSequence';
 import {WaveDirective} from '../../Directives/wave/wave';
-//import {ChooseDirective} from '../../Directives/choose/choose'; 
+//import {ChooseDirective} from '../../Directives/choose/choose';
+
+import {StarPage} from '../star/star';
 
 import 'rxjs/add/operator/map';
 
@@ -149,8 +151,11 @@ export class IndexPage {
             setTimeout(() => {
                 item.chooseMove = true;
             });
-        }
-        
+        }        
+    }
+
+    goStar() {
+        this.nav.push(StarPage);
     }
 
     /*

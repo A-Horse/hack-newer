@@ -1,5 +1,11 @@
 <ion-navbar hack *navbar>
     <ion-title>Hack News</ion-title>
+
+    <ion-buttons end>
+    <button (click)="goStar()">
+        <ion-icon [name]="'md-star'"></ion-icon>
+    </button>
+  </ion-buttons>
 </ion-navbar>
 
 <button-sequence #bs [vButtons]="vButtons" [hButtons]="hButtons" (clicked)="bsClicked = !bsClicked"></button-sequence>
