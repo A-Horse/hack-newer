@@ -13,17 +13,17 @@ import 'rxjs/add/operator/map';
 import './index.scss';
 import './choose.scss';
 
-const LATEST_ITEM_N = 10;
+const INIT_ITEM_N = 10;
 const fetchNewMins = 5;
 
 let fetchNewGap = 5 * 60 * 1000;
 
 const apis = {
-    'new': 'https://hacker-news.firebaseio.com/v0/topstories',
-    top: 'https://hacker-news.firebaseio.com/v0/newstories',
-    ask: 'https://hacker-news.firebaseio.com/v0/askstories',
-    show: 'https://hacker-news.firebaseio.com/v0/showstories',
-    job: 'https://hacker-news.firebaseio.com/v0/jobstories'
+    'new': 'https://hacker-news.firebaseio.com/v0/topstories.json',
+    top: 'https://hacker-news.firebaseio.com/v0/newstories.json',
+    ask: 'https://hacker-news.firebaseio.com/v0/askstories.json',
+    show: 'https://hacker-news.firebaseio.com/v0/showstories.json',
+    job: 'https://hacker-news.firebaseio.com/v0/jobstories.json'
 }
 
 @Page({
@@ -41,16 +41,12 @@ export class IndexPage {
         
         this.local = new Storage(LocalStorage);
 
-        this.category = this.local.get('category') || 'new';
-        
+        this.category = this.local.get('category')._result || 'new';
         this.items = [];
         
-        this.http.get('https://hacker-news.firebaseio.com/v0/newstories.json')
-            .map(res => JSON.parse(res.text()))
-            .subscribe(
-                data => this.handleItems(data),
-                err => this.logError(err)
-            );
+        this.renderItemList(this.category);
+        
+        
 
         this.vButtons = [{
             icon: 'md-barcode',
@@ -90,6 +86,24 @@ export class IndexPage {
         }]
     }
 
+    /*
+     * 
+     * Event
+     *
+     */
+
+    doStart($event) {
+        console.log('start');
+    }
+
+    doRefresh($event) {
+        console.log('refresh');
+    }
+
+    doPulling() {
+        console.log('pull');
+    }
+    
     contentClick($event, bs) {
         console.log($event)
         $event.preventDefault();
@@ -99,35 +113,11 @@ export class IndexPage {
             bs.toggle($event);
         }
     }
-    
-    setCategory(cate) {
-        console.log(cate);
-        this.category = cate;
-        this.local.set('category', cate);
-    }
-    
-    fetchItemsList() {
-        let t = new Date().getTime(),
-            prevTime = this.local.get('fetchTime');
-        if (prevTime) {            
-            if (t - prevTime > fetchNewGap) {
-                refresh();
-            }
-        } else {
-            this.local.set('fetchTime', t);
-        }
-    }
 
-    refresh() {
-        
-        
-    }
-    
     openUrl($event, url) {
-        console.log('url');
         $event.preventDefault();
         $event.stopPropagation();
-        //window.open(url, '_blank', 'location=yes');
+        window.open(url, '_blank', 'location=yes');
     }
 
     starItem($event, id) {
@@ -146,8 +136,6 @@ export class IndexPage {
                 this.items[lastItem].opChoose = false;
             }, 500);
         }
-
-        
         
         if (item.opChoose) {
             item.chooseMove = false;
@@ -165,24 +153,116 @@ export class IndexPage {
         
     }
 
+    /*
+     * 
+     * Func
+     *
+     */
+
     calcTimeDistance(time) {
         return timeDifference(new Date().getTime(), time * 1000);
     }
     
-    handleItems(data) {
+    /*
+     * 
+     * LocalStorge
+     *
+     */
+    
+    setCategory(cate) {
+        console.log(cate);p
+        this.category = cate;
+        this.local.set('category', cate);        
+    }
+
+    setCateList(cate, list) {
+        this.local.set('list_' + cate, list);
+    }
+
+    getItem(id) {
+        return this.local.get('id_' + id)._result;
+    }
+
+    setItem(id, data) {
+        this.local.set('id_' + id, data);
+    }
+
+    /*
+     * 
+     * Network
+     *
+     */
+    
+    fetchItemsList(cate) {
+        console.log('cate', cate);
+        console.log(apis[cate])
+        this.http.get(apis[cate])
+               .map(res => res.json())
+               .subscribe(
+                data => {
+                    console.log(data);
+                    this.setCateList(cate, JSON.stringify(data));
+                    this.handleItemList(data, cate);
+                },
+                err => this.logError(err)
+            );
+    }
+
+    xx() {
+        let t = new Date().getTime(),
+            prevTime = this.local.get('fetchTime');
+        if (prevTime) {            
+            if (t - prevTime > fetchNewGap) {
+                refresh();
+            }
+        } else {
+            this.local.set('fetchTime', t);
+        }
+    }
+
+    refresh() {
         
-        let self = this;
-        _.take(data, LATEST_ITEM_N).map((itemId) => {
-            this.http.get(`https://hacker-news.firebaseio.com/v0/item/${itemId}.json`)
+    }
+
+    renderItemList(cate) {
+        
+        let list = JSON.parse(this.local.get('list_' + cate)._result);
+        console.log(list);
+        if (!list) {
+            console.log('fetch')
+            this.fetchItemsList(cate);
+        } else {
+            console.log(list);
+            this.handleItemList(list);
+        }
+    }
+    
+    handleItemList(data) {
+        
+        console.log(data)
+        _.take(data, INIT_ITEM_N).map((itemId) => {
+            this.handleItem(itemId);
+        })
+    }
+
+    handleItem(id) {
+        let lItem = this.getItem(id);
+
+        if (lItem) {
+
+            this.items.push(JSON.parse(lItem));
+        } else {
+            this.http.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
                 .map(res => JSON.parse(res.text()))
                 .subscribe(
                     itemData => {
-                        console.log(itemData)
+                        this.setItem(id, JSON.stringify(itemData));
+                        console.log(itemData);
                         this.items.push(itemData);
                     },
                     err => this.logError(err)
                 );
-        })
+        }
     }
     
     // TODO 

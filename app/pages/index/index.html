@@ -7,6 +7,13 @@
 
 <ion-content (click)="contentClick($event, bs)">
 
+    <ion-refresher (start)="doStart($event)"
+                   (refresh)="doRefresh($event)"
+                   (pulling)="doPulling($event)">
+    </ion-refresher>
+
+
+    
     <ion-card wave *ngFor="#item of items; #i = index" class="item-card" (click)="cardClick(item, i)">
 
         <ion-card-content>
@@ -30,6 +37,8 @@
         </div>
         
     </ion-card>
+
+    <div class="more-button">More</div>
 
 </ion-content>
 

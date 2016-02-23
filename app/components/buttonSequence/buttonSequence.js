@@ -6,7 +6,7 @@ import './buttonSequence.scss'
 const buttonSize = 60;
 const buttonGap = 30;
 const buttonHideOpacity = 0.5;
-const marginToCorner = 30;
+//const marginToCorner = 30;
 
 @Component({
     selector: 'button-sequence',
@@ -74,14 +74,14 @@ export class ButtonSequence {
         this.clicked.emit(this.showButtons);
         
         if( this.showButtons ){
-            let b = marginToCorner;
+            let b = 0;
             this.vButtons.map((button) => {
                 b = buttonGap + buttonSize + b;
                 button.bottom = b + 'px';
                 button.opacity = 1;
             });
 
-            b = marginToCorner;
+            b = 0;
             this.hButtons.map((button) => {
                 b = buttonGap + buttonSize + b;
                 button.right = b + 'px';
