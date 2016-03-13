@@ -5,13 +5,32 @@
 
 <ion-content>
 
-    <ion-refresher (start)="doStart($event)"
-                   (refresh)="doRefresh($event)"
-                   (pulling)="doPulling($event)">
-    </ion-refresher>
+  <ion-card wave *ngFor="#item of items; #i = index" class="item-card" (click)="cardClick(item, i)">
 
-    ss
+    <ion-card-content>
+      <p>{{ item.title }}</p>
+    </ion-card-content>
+
+    <ion-item>
+      <p>{{ item.by }}</p>
+      <p *ngIf="item.text">{{ item.text }}</p>
+      <p>{{ calcTimeDistance(item.time) }}</p>
+    </ion-item>
     
+    <div *ngIf="item.opChoose" class="choose-container" [ngClass]="{move: item.chooseMove}">
+      <div class="choose-button star" (click)="openUrl($event, item.url)">
+        <ion-icon [name]="'md-star'"></ion-icon>
+      </div>
+
+      <div class="choose-button open" (click)="starItem($event, item.id)">
+        <ion-icon [name]="'md-compass'"></ion-icon>
+      </div>
+    </div>
+    
+  </ion-card>
+
+
+  <div class="more-button" (clicked)="loadMore()">see more</div>
     
 
 </ion-content>

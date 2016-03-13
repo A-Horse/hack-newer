@@ -14,6 +14,7 @@ import 'rxjs/add/operator/map';
 
 import './index.scss';
 import './choose.scss';
+import './common.scss';
 
 const INIT_ITEM_N = 10;
 const fetchNewMins = 5;
@@ -93,17 +94,9 @@ export class IndexPage {
      * Event
      *
      */
-
-    doStart($event) {
-        console.log('start');
-    }
-
     doRefresh($event) {
         console.log('refresh');
-    }
-
-    doPulling() {
-        console.log('pull');
+        this.fetchItemsList(this.category);
     }
     
     contentClick($event, bs) {
@@ -111,9 +104,10 @@ export class IndexPage {
         $event.preventDefault();
         $event.stopPropagation();
         console.log('-------')
-        if (this.bsClicked) {
-            bs.toggle($event);
-        }
+            
+            if (this.bsClicked) {
+                bs.toggle($event);
+            }
     }
 
     openUrl($event, url) {
@@ -123,14 +117,33 @@ export class IndexPage {
     }
 
     starItem($event, id) {
-        console.log('star');
         $event.preventDefault();
         $event.stopPropagation();
+        let starList = this.local.get('star_list') || [];
+
+        starList.push(id);
+        this.local.set('star_list', starList);
+    }
+
+    closeChoose(clicked) {
+        if(!clicked)  {
+            return;
+        }
+        let lastItem = this.opItem;
+        if (!!lastItem || lastItem === 0) {
+            this.items[lastItem].chooseMove = false;
+
+            setTimeout(() => {
+                this.items[lastItem].opChoose = false;
+            }, 500);
+        }
     }
 
     cardClick(item, i) {
+        console.log('f');
         let lastItem = this.opItem;
         this.opItem = i;
+        
         if ((!!lastItem || lastItem === 0) && lastItem !== i) {
             this.items[lastItem].chooseMove = false;
 
@@ -141,20 +154,24 @@ export class IndexPage {
         
         if (item.opChoose) {
             item.chooseMove = false;
-
+            
             setTimeout(() => {
                 item.opChoose = false;
             }, 500);
         } else {
+            console.log('not')
             item.opChoose = true;
         
             setTimeout(() => {
                 item.chooseMove = true;
-            });
+            }, 500);
         }        
     }
 
-    goStar() {
+    goStar($event, bs) {
+        if (this.bsClicked) {
+                bs.toggle($event);
+        }
         this.nav.push(StarPage);
     }
 
@@ -201,7 +218,7 @@ export class IndexPage {
     fetchItemsList(cate) {
         console.log('cate', cate);
         console.log(apis[cate])
-        this.http.get(apis[cate])
+            this.http.get(apis[cate])
                .map(res => res.json())
                .subscribe(
                 data => {
@@ -213,24 +230,11 @@ export class IndexPage {
             );
     }
 
-    xx() {
-        let t = new Date().getTime(),
-            prevTime = this.local.get('fetchTime');
-        if (prevTime) {            
-            if (t - prevTime > fetchNewGap) {
-                refresh();
-            }
-        } else {
-            this.local.set('fetchTime', t);
-        }
-    }
-
     refresh() {
         
     }
 
     renderItemList(cate) {
-        
         let list = JSON.parse(this.local.get('list_' + cate)._result);
         console.log(list);
         if (!list) {
@@ -254,7 +258,6 @@ export class IndexPage {
         let lItem = this.getItem(id);
 
         if (lItem) {
-
             this.items.push(JSON.parse(lItem));
         } else {
             this.http.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
@@ -268,6 +271,10 @@ export class IndexPage {
                     err => this.logError(err)
                 );
         }
+    }
+
+    loadMore() {
+        
     }
     
     // TODO 

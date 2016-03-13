@@ -2,20 +2,18 @@
     <ion-title>Hack News</ion-title>
 
     <ion-buttons end>
-    <button (click)="goStar()">
+    <button (click)="goStar($event, bs)">
         <ion-icon [name]="'md-star'"></ion-icon>
     </button>
   </ion-buttons>
 </ion-navbar>
 
-<button-sequence #bs [vButtons]="vButtons" [hButtons]="hButtons" (clicked)="bsClicked = !bsClicked"></button-sequence>
+<button-sequence #bs [vButtons]="vButtons" [hButtons]="hButtons" (clicked)="bsClicked = !bsClicked; closeChoose(bsClicked)"></button-sequence>
 
 
 <ion-content (click)="contentClick($event, bs)">
 
-    <ion-refresher (start)="doStart($event)"
-                   (refresh)="doRefresh($event)"
-                   (pulling)="doPulling($event)">
+    <ion-refresher (refresh)="doRefresh($event)">
     </ion-refresher>
 
 
@@ -26,7 +24,7 @@
             <p>{{ item.title }}</p>
         </ion-card-content>
 
-        <ion-item>            
+        <ion-item>
             <p>{{ item.by }}</p>
             <p *ngIf="item.text">{{ item.text }}</p>
             <p>{{ calcTimeDistance(item.time) }}</p>
@@ -44,7 +42,7 @@
         
     </ion-card>
 
-    <div class="more-button">More</div>
+    <div class="more-button" (clicked)="loadMore()">see more</div>
 
 </ion-content>
 
