@@ -48,8 +48,6 @@ export class IndexPage {
         this.items = [];
         
         this.renderItemList(this.category);
-        
-        
 
         this.vButtons = [{
             icon: 'md-barcode',
@@ -119,10 +117,13 @@ export class IndexPage {
     starItem($event, id) {
         $event.preventDefault();
         $event.stopPropagation();
-        let starList = this.local.get('star_list') || [];
-
-        starList.push(id);
-        this.local.set('star_list', starList);
+        let starList = JSON.parse(this.local.get('star_list')._result) || [];
+        
+        starList.push(JSON.stringify({
+            date: new Date(),
+            itemId: id
+        }));
+        this.local.set('star_list', JSON.stringify(starList));
     }
 
     closeChoose(clicked) {
@@ -247,8 +248,6 @@ export class IndexPage {
     }
     
     handleItemList(data) {
-        
-        console.log(data)
         _.take(data, INIT_ITEM_N).map((itemId) => {
             this.handleItem(itemId);
         })
