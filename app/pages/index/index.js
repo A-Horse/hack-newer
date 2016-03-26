@@ -1,4 +1,4 @@
-import {Page, Icon, NavController, Storage, LocalStorage, Hostlistener} from 'ionic/ionic';
+import {Page, Icon, NavController, Storage, LocalStorage, Hostlistener} from 'ionic';
 import {Http, HTTP_PROVIDERS} from 'angular2/http';
 import  * as _  from 'lodash';
 

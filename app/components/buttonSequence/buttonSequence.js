@@ -1,5 +1,5 @@
 import {Component, Input, Output, ElementRef, EventEmitter, Hostlistener} from 'angular2/core';
-import {Icon, Animation} from 'ionic/ionic';
+import {Icon, Animation} from 'ionic';
 
 import './buttonSequence.scss'
 

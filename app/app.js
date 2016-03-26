@@ -1,4 +1,4 @@
-import {App, Platform} from 'ionic/ionic';
+import {App, Platform} from 'ionic/index';
 import {IndexPage} from './pages/index/index';
 
 

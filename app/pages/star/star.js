@@ -1,4 +1,4 @@
-import {Page, Icon, NavController, Storage, LocalStorage, Hostlistener} from 'ionic/ionic';
+import {Page, Icon, NavController, Storage, LocalStorage, Hostlistener} from 'ionic';
 
 import {HacknewApi} from '../../service/hacknew-api/hacknew-api'
 import {CONFIG} from '../../config.js';

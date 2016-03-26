@@ -1,6 +1,6 @@
 import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import {Storage, LocalStorage} from 'ionic/ionic';
-import {Injectable} from 'angular2/core'
+import {Storage, LocalStorage} from 'ionic';
+import {Injectable} from 'angular2/core';
 
 const apis = {
     'new': 'https://hacker-news.firebaseio.com/v0/topstories.json',
