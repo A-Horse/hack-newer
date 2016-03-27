@@ -2,7 +2,6 @@
     <ion-title>Star</ion-title>
 </ion-navbar>
 
-
 <ion-content>
 
   <ion-card wave *ngFor="#item of items; #i = index" class="item-card" (click)="cardClick(item, i)">
@@ -14,7 +13,6 @@
     <ion-item>
       <p>{{ item.by }}</p>
       <p *ngIf="item.text">{{ item.text }}</p>
-      <p>{{ calcTimeDistance(item.time) }}</p>
     </ion-item>
     
     <div *ngIf="item.opChoose" class="choose-container" [ngClass]="{move: item.chooseMove}">

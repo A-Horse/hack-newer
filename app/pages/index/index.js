@@ -92,9 +92,9 @@ export class IndexPage {
      * Event
      *
      */
-    doRefresh($event) {
+    doRefresh(refresher) {
         console.log('refresh');
-        this.fetchItemsList(this.category);
+        this.fetchItemsList(this.category, () => { refresher.complete(); });
     }
     
     contentClick($event, bs) {
@@ -136,12 +136,11 @@ export class IndexPage {
 
             setTimeout(() => {
                 this.items[lastItem].opChoose = false;
-            }, 500);
+            }, 100);
         }
     }
 
     cardClick(item, i) {
-        console.log('f');
         let lastItem = this.opItem;
         this.opItem = i;
         
@@ -150,7 +149,7 @@ export class IndexPage {
 
             setTimeout(() => {
                 this.items[lastItem].opChoose = false;
-            }, 500);
+            }, 100);
         }
         
         if (item.opChoose) {
@@ -158,14 +157,14 @@ export class IndexPage {
             
             setTimeout(() => {
                 item.opChoose = false;
-            }, 500);
+            }, 100);
         } else {
             console.log('not')
             item.opChoose = true;
         
             setTimeout(() => {
                 item.chooseMove = true;
-            }, 500);
+            }, 100);
         }        
     }
 
@@ -216,19 +215,18 @@ export class IndexPage {
      *
      */
     
-    fetchItemsList(cate) {
-        console.log('cate', cate);
-        console.log(apis[cate])
-            this.http.get(apis[cate])
-               .map(res => res.json())
-               .subscribe(
-                data => {
-                    console.log(data);
-                    this.setCateList(cate, JSON.stringify(data));
-                    this.handleItemList(data, cate);
-                },
-                err => this.logError(err)
-            );
+    fetchItemsList(cate, cb) {
+        
+        this.http.get(apis[cate])
+        .map(res => res.json())
+        .subscribe(
+            data => {
+                this.setCateList(cate, JSON.stringify(data));
+                this.handleItemList(data, cate);
+                cb && cb();
+            },
+            err => this.logError(err)
+        );
     }
 
     refresh() {
@@ -237,7 +235,7 @@ export class IndexPage {
 
     renderItemList(cate) {
         let list = JSON.parse(this.local.get('list_' + cate)._result);
-        console.log(list);
+
         if (!list) {
             console.log('fetch')
             this.fetchItemsList(cate);

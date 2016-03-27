@@ -13,8 +13,10 @@
 
 <ion-content (click)="contentClick($event, bs)">
 
-    <ion-refresher (refresh)="doRefresh($event)">
-    </ion-refresher>
+  <ion-refresher (refresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
 
 
     
@@ -31,11 +33,11 @@
         </ion-item>
         
         <div *ngIf="item.opChoose" class="choose-container" [ngClass]="{move: item.chooseMove}">
-            <div class="choose-button star" (click)="starItem($event, item.url)">
+            <div class="choose-button star" (click)="starItem($event, item.id)">
                 <ion-icon [name]="'md-star'"></ion-icon>
             </div>
 
-            <div class="choose-button open" (click)="openUrl($event, item.id)">
+            <div class="choose-button open" (click)="openUrl($event, item.url)">
                 <ion-icon [name]="'md-compass'"></ion-icon>
             </div>
         </div>

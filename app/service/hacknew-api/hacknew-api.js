@@ -25,7 +25,7 @@ export class HacknewApi {
     getItem(id, cb) {
         let sData = this.local.get('id_' + id)._result;
         if (sData) {
-            cb(sData);
+            cb(JSON.parse(sData));
         } else {
             this.fetchItem(id, cb);
         }
