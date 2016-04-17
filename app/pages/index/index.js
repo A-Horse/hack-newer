@@ -16,7 +16,7 @@ import './index.scss';
 import './choose.scss';
 import './common.scss';
 
-const INIT_ITEM_N = 10;
+const INIT_ITEM_N = 100;
 const fetchNewMins = 5;
 
 let fetchNewGap = 5 * 60 * 1000;
@@ -69,6 +69,7 @@ export class IndexPage {
         this.vButtons.map((button) => {
             button.fn = () => {
                 this.setCategory(button.txt);
+                this.doRefresh();
             };
         });
 
@@ -192,7 +193,7 @@ export class IndexPage {
      */
     
     setCategory(cate) {
-        console.log(cate);p
+        console.log(cate);
         this.category = cate;
         this.local.set('category', cate);        
     }
@@ -216,7 +217,7 @@ export class IndexPage {
      */
     
     fetchItemsList(cate, cb) {
-        
+        this.items = [];
         this.http.get(apis[cate])
         .map(res => res.json())
         .subscribe(

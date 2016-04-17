@@ -17,13 +17,13 @@ const buttonHideOpacity = 0.5;
         </div>
         <div  class="buttons-container">
         <div *ngFor="#button of vButtons" [ngStyle]="{bottom: button.bottom, opacity: button.opacity}"
-               (click)="button.fn($event)" class="sequence-button v">
+               (click)="buttonClick(button.fn, $event)" class="sequence-button v">
                <ion-icon [name]="button.icon"></ion-icon>
         <span class="button-txt" *ngIf="showButtons">{{ button.txt }}</span>
             </div>
       
         <div *ngFor="#button of hButtons" [ngStyle]="{right: button.right, opacity: button.opacity}"
-               (click)="button.fn($event)" class="sequence-button h">
+               (click)="buttonClick(button.fn, $event)" class="sequence-button h">
                <ion-icon [name]="button.icon"></ion-icon>
         <span class="button-txt" *ngIf="showButtons">{{ button.txt }}</span>
             </div>
@@ -53,13 +53,18 @@ export class ButtonSequence {
     @Output() clicked = new EventEmitter();
     
     constructor(private elementRef :ElementRef) {
-        console.log(this.elementRef);
+
         this.vButtons.map((button) => {
             button.opacity = buttonHideOpacity;
         });
         this.hButtons.map((button) => {
             button.opacity = buttonHideOpacity;
         });
+    }
+
+    buttonClick(fn, e) {
+        fn(e);
+        this.toggle(e);
     }
 
 

@@ -21,7 +21,7 @@ export class StarPage {
     refresh() {
         let starList = JSON.parse(this.local.get('star_list')._result);
         console.log(starList);
-        _.take(starList, CONFIG.INIT_ITEM_N).map((starItem) => {
+        starList.map((starItem) => {
             let starItem = JSON.parse(starItem);
             this.hackapi.getItem(starItem.itemId, (data) => {
                 this.renderItem(starItem.date, data);
