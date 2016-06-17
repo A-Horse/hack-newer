@@ -22,6 +22,7 @@ www/build/
 $RECYCLE.BIN/
 platforms/
 plugins/
+bower_components/
 
 .DS_Store
 Thumbs.db
